@@ -6,30 +6,7 @@ const list = document.querySelector('.list');
 
 
 // 待辦事項資料
-let data = [
-    // {
-    //     content: '去圖書館借書',
-    //     state: 'checked'
-    // },
-    // {
-    //     content: '買番茄',
-    //     state: '',
-    // }
-];
-
-save.addEventListener('click', function () {
-    if (txt.value == '') {
-        notice.textContent = `還沒填入待辦事項哦`;
-        notice.style.display = 'block';
-        return;
-    };
-    let obj = {};
-    obj.content = txt.value;
-    obj.state = '';
-    data.push(obj);
-    renderData();
-});
-
+let data = [];
 
 
 // 初始化資料
@@ -50,6 +27,37 @@ function renderData() {
 
 };
 renderData();
+
+
+// 新增待辦
+save.addEventListener('click', function () {
+    if (txt.value == '') {
+        notice.textContent = `還沒填入待辦事項哦`;
+        notice.style.display = 'block';
+        return;
+    };
+    let obj = {};
+    obj.content = txt.value;
+    obj.state = '';
+    data.push(obj);
+    renderData();
+});
+txt.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter') {
+        return;
+    } else if (e.key == 'Enter' && e.isComposing == false) {
+        if (txt.value == '') {
+            notice.textContent = `還沒填入待辦事項哦`;
+            notice.style.display = 'block';
+            return;
+        };
+        let obj = {};
+        obj.content = txt.value;
+        obj.state = '';
+        data.push(obj);
+        renderData();
+    };
+});
 
 
 // 刪除資料
@@ -85,6 +93,7 @@ list.addEventListener('click', function (e) {
             renderData();
         };
     };
+    // 選到確認方塊
     if (e.target.className == 'finishcheck') {
         let checked = e.target.checked;
         let num = e.target.dataset.num;
@@ -95,6 +104,6 @@ list.addEventListener('click', function (e) {
             data[num].state = '';
             renderData();
         }
-    }   
+    };
 
-})
+});
