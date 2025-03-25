@@ -6,7 +6,16 @@ const list = document.querySelector('.list');
 
 
 // 待辦事項資料
-let data = [];
+let data = [
+    // {
+    //     content: '去圖書館借書',
+    //     state: 'checked'
+    // },
+    // {
+    //     content: '買番茄',
+    //     state: '',
+    // }
+];
 
 save.addEventListener('click', function () {
     if (txt.value == '') {
@@ -16,6 +25,7 @@ save.addEventListener('click', function () {
     };
     let obj = {};
     obj.content = txt.value;
+    obj.state = '';
     data.push(obj);
     renderData();
 });
@@ -28,7 +38,8 @@ function renderData() {
     let str = '';
     data.forEach(function (item, index) {
         str += `<li>
-        ${item.content}
+        <input type="checkbox" name="" class="finishcheck" ${item.state} data-num="${index}" id="">
+        <span data-num="${index}">${item.content}</span>
         <input data-num="${index}" type="button" value="×" class="delete">
         </li>`;
     });
@@ -38,10 +49,12 @@ function renderData() {
     notice.style.display = 'none';
 
 };
+renderData();
+
 
 // 刪除資料
 // 針對list去綁監聽事件
-list.addEventListener('click', function(e){
+list.addEventListener('click', function (e) {
     if (e.target.className !== 'delete') {
         return;
     };
@@ -50,3 +63,38 @@ list.addEventListener('click', function(e){
     renderData();
 });
 
+// 完成待辦事項
+list.addEventListener('click', function (e) {
+    //選到句子時
+    if (e.target.nodeName == 'SPAN') {
+        let checked = e.target.previousElementSibling.checked;
+        let num = e.target.dataset.num;
+
+        if (checked == true) {
+            e.target.style.textDecoration = 'unset';
+            e.target.style.color = '#000';
+            e.target.previousElementSibling.checked = false;
+            data[num].state = '';
+            renderData();
+
+        } else {
+            e.target.style.textDecoration = 'line-through';
+            e.target.style.color = '#666';
+            e.target.previousElementSibling.checked = true;
+            data[num].state = 'checked';
+            renderData();
+        };
+    };
+    if (e.target.className == 'finishcheck') {
+        let checked = e.target.checked;
+        let num = e.target.dataset.num;
+        if (checked == true) {
+            data[num].state = 'checked';
+            renderData();
+        } else {
+            data[num].state = '';
+            renderData();
+        }
+    }   
+
+})

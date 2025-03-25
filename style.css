@@ -91,18 +91,79 @@ input:active {
 .list li {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: start;
     list-style: none;
-    padding: 5px 0;
+    padding: 5px 0 8px;
     border-bottom: 1px dashed #e2dfd6;
+    position: relative;
+}
+
+.list li:hover {
+    cursor: pointer;
+}
+
+.list li span {
+    display: block;
+    width: 100%;
+    transition: .3s ease;
+}
+
+.list li .finishcheck {
+    display: block;
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    position: relative;
+    margin: 0 15px 0 0;
+}
+
+.list li .finishcheck::after {
+    position: absolute;
+    display: block;
+    content: '';
+    width: 18px;
+    height: 18px;
+    border: 3px solid #dbd5ce;
+    background-color: #fff;
+    border-radius: 5px;
+    top: -2px;
+    left: -3px;
+    z-index: 1;
+}
+.list li .finishcheck::before {
+    position: absolute;
+    display: flex;
+    transform: scale(0);
+    justify-content: center;
+    align-items: center;
+    content: '✓';
+    width: 18px;
+    height: 18px;
+    z-index: 2;
+    font-size: 17px;
+    font-weight: 700;
+    color: #756e5b;
+    transition: .3s ease;
+}
+.list li .finishcheck:checked::before {
+    display: flex;
+    transform: scale(1);
+}
+
+.list li .finishcheck:checked~span {
+    color: #666;
+    text-decoration: line-through;
 }
 
 .delete {
-    background-color: #e2dfd6;
+    position: absolute;
+    background-color: transparent;
     border: none;
-    display: block;
+    display: none;
+    top: 2px;
+    right: 0;
     padding: 5px 10px;
-    font-size: 16px;
+    font-size: 20px;
     color: #666;
     transition: .3s ease;
 }
@@ -112,7 +173,21 @@ input:active {
 .delete:active {
     border: none;
     cursor: pointer;
-    background-color: #dbd5ce;
+    color:#df7171;
+}
+
+.list li:hover>.delete {
+    display: block;
+    animation: fadeIn .3s ease 0ms 1 both;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .notice {
